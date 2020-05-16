@@ -1,0 +1,216 @@
+/* https://github.com/dracula/pygments/blob/master/dracula.css */
+
+$dracula-gray-dark: #282a36; // Background
+$dracula-gray: #44475a; // Current Line & Selection
+$dracula-gray-light: #f8f8f2; // Foreground
+$dracula-blue: #6272a4; // Comment
+$dracula-cyan: #8be9fd;
+$dracula-green: #50fa7b;
+$dracula-orange: #ffb86c;
+$dracula-pink: #ff79c6;
+$dracula-purple: #bd93f9;
+$dracula-red: #ff5555;
+$dracula-yellow: #f1fa8c;
+
+.code.white { // override white
+  // Line numbers
+  .line-numbers,
+  .diff-line-num {
+    background-color: $dracula-gray-dark;
+  }
+
+  .diff-line-num,
+  .diff-line-num a {
+    color: $dracula-blue;
+  }
+
+  // Code itself
+  pre.code,
+  .diff-line-num {
+    border-color: $dracula-gray-dark;
+  }
+
+  &,
+  pre.code,
+  .line_holder .line_content {
+    background-color: $dracula-gray-dark;
+    color: $dracula-gray-light;
+  }
+
+  .line_expansion {
+    @include diff-expansion($dracula-gray-dark, $dracula-gray, $dracula-pink);
+  }
+
+  // Diff line
+  .line_holder {
+    &.match .line_content,
+    &.old-nonewline .line_content,
+    &.new-nonewline .line_content {
+      @include dark-diff-match-line;
+    }
+
+    td.diff-line-num.hll:not(.empty-cell),
+    td.line-coverage.hll:not(.empty-cell),
+    td.line_content.hll:not(.empty-cell) {
+      background-color: $dracula-gray-dark;
+      border-color: $dracula-gray-dark;
+    }
+
+    .line-coverage {
+      @include line-coverage-border-color($dracula-green, $dracula-orange);
+    }
+    
+    .diff-line-num.new,
+    .line-coverage.new,
+    .line_content.new {
+      $color: rgba($dracula-green, 0.15);
+
+      @include diff-background($color, $color, transparent);
+
+      &::before,
+      a {
+        color: $dracula-blue
+      }
+    }
+
+    .diff-line-num.old,
+    .line-coverage.old,
+    .line_content.old {
+      $color: rgba($dracula-red, 0.3);
+
+      @include diff-background($color, $color, transparent);
+
+      &::before,
+      a {
+        color: $dracula-blue
+      }
+    }
+
+    .diff-line-num {
+      &.is-over,
+      &.hll:not(.empty-cell).is-over {
+        background-color: $dracula-blue;
+        border-color: darken($dracula-blue, 5%);
+
+        a {
+          color: darken($dracula-blue, 15%);
+        }
+      }
+    }
+
+    .line_content.match {
+      @include dark-diff-match-line;
+    }
+
+    &:not(.diff-expanded) + .diff-expanded,
+    &.diff-expanded + .line_holder:not(.diff-expanded) {
+      > .diff-line-num,
+      > .line-coverage,
+      > .line_content {
+        border-top: 1px solid $dracula-gray-dark;
+      }
+    }
+
+    &.diff-expanded {
+      > .diff-line-num,
+      > .line-coverage,
+      > .line_content {
+        background: $dracula-gray-dark;
+        border-color: $dracula-gray-dark;
+      }
+    }
+  }
+
+  // highlight line via anchor
+  pre .hll {
+    background-color: $dracula-gray !important;
+  }
+
+  // Search result highlight
+  span.highlight_word {
+    background-color: $dracula-gray-light !important;
+    color: #000 !important;
+  }
+
+  // Links to URLs, emails, or dependencies
+  .line a {
+    color: $dracula-pink;
+  }
+  
+  .hll { background-color: $dracula-yellow }
+  .c { color: $dracula-blue } /* Comment */
+  .err { color: $dracula-gray-light } /* Error */
+  .g { color: $dracula-gray-light } /* Generic */
+  .k { color: $dracula-pink } /* Keyword */
+  .l { color: $dracula-gray-light } /* Literal */
+  .n { color: $dracula-gray-light } /* Name */
+  .o { color: $dracula-pink } /* Operator */
+  .x { color: $dracula-gray-light } /* Other */
+  .p { color: $dracula-gray-light } /* Punctuation */
+  .ch { color: $dracula-blue } /* Comment.Hashbang */
+  .cm { color: $dracula-blue } /* Comment.Multiline */
+  .cp { color: $dracula-pink } /* Comment.Preproc */
+  .cpf { color: $dracula-blue } /* Comment.PreprocFile */
+  .c1 { color: $dracula-blue } /* Comment.Single */
+  .cs { color: $dracula-blue } /* Comment.Special */
+  .gd { color: #8b080b } /* Generic.Deleted */
+  .ge { color: $dracula-gray-light} /* Generic.Emph */
+  .gr { color: $dracula-gray-light } /* Generic.Error */
+  .gh { color: $dracula-gray-light } /* Generic.Heading */
+  .gi { color: $dracula-gray-light } /* Generic.Inserted */
+  .go { color: $dracula-gray } /* Generic.Output */
+  .gp { color: $dracula-gray-light } /* Generic.Prompt */
+  .gs { color: $dracula-gray-light } /* Generic.Strong */
+  .gu { color: $dracula-gray-light } /* Generic.Subheading */
+  .gt { color: $dracula-gray-light } /* Generic.Traceback */
+  .kc { color: $dracula-pink } /* Keyword.Constant */
+  .kd { color: $dracula-cyan } /* Keyword.Declaration */
+  .kn { color: $dracula-pink } /* Keyword.Namespace */
+  .kp { color: $dracula-pink } /* Keyword.Pseudo */
+  .kr { color: $dracula-pink } /* Keyword.Reserved */
+  .kt { color: $dracula-cyan } /* Keyword.Type */
+  .ld { color: $dracula-gray-light } /* Literal.Date */
+  .m { color: $dracula-purple } /* Literal.Number */
+  .s { color: $dracula-yellow } /* Literal.String */
+  .na { color: $dracula-green } /* Name.Attribute */
+  .nb { color: $dracula-cyan } /* Name.Builtin */
+  .nc { color: $dracula-green } /* Name.Class */
+  .no { color: $dracula-gray-light } /* Name.Constant */
+  .nd { color: $dracula-gray-light } /* Name.Decorator */
+  .ni { color: $dracula-gray-light } /* Name.Entity */
+  .ne { color: $dracula-gray-light } /* Name.Exception */
+  .nf { color: $dracula-green } /* Name.Function */
+  .nl { color: $dracula-cyan } /* Name.Label */
+  .nn { color: $dracula-gray-light } /* Name.Namespace */
+  .nx { color: $dracula-gray-light } /* Name.Other */
+  .py { color: $dracula-gray-light } /* Name.Property */
+  .nt { color: $dracula-pink } /* Name.Tag */
+  .nv { color: $dracula-cyan } /* Name.Variable */
+  .ow { color: $dracula-pink } /* Operator.Word */
+  .w { color: $dracula-gray-light } /* Text.Whitespace */
+  .mb { color: $dracula-purple } /* Literal.Number.Bin */
+  .mf { color: $dracula-purple } /* Literal.Number.Float */
+  .mh { color: $dracula-purple } /* Literal.Number.Hex */
+  .mi { color: $dracula-purple } /* Literal.Number.Integer */
+  .mo { color: $dracula-purple } /* Literal.Number.Oct */
+  .sa { color: $dracula-yellow } /* Literal.String.Affix */
+  .sb { color: $dracula-yellow } /* Literal.String.Backtick */
+  .sc { color: $dracula-yellow } /* Literal.String.Char */
+  .dl { color: $dracula-yellow } /* Literal.String.Delimiter */
+  .sd { color: $dracula-yellow } /* Literal.String.Doc */
+  .s2 { color: $dracula-yellow } /* Literal.String.Double */
+  .se { color: $dracula-yellow } /* Literal.String.Escape */
+  .sh { color: $dracula-yellow } /* Literal.String.Heredoc */
+  .si { color: $dracula-yellow } /* Literal.String.Interpol */
+  .sx { color: $dracula-yellow } /* Literal.String.Other */
+  .sr { color: $dracula-yellow } /* Literal.String.Regex */
+  .s1 { color: $dracula-yellow } /* Literal.String.Single */
+  .ss { color: $dracula-yellow } /* Literal.String.Symbol */
+  .bp { color: $dracula-gray-light } /* Name.Builtin.Pseudo */
+  .fm { color: $dracula-green } /* Name.Function.Magic */
+  .vc { color: $dracula-cyan } /* Name.Variable.Class */
+  .vg { color: $dracula-cyan } /* Name.Variable.Global */
+  .vi { color: $dracula-cyan } /* Name.Variable.Instance */
+  .vm { color: $dracula-cyan } /* Name.Variable.Magic */
+  .il { color: $dracula-purple } /* Literal.Number.Integer.Long */
+}
