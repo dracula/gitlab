@@ -9,7 +9,8 @@ Currently this theme will only update the syntax highlighting for code and diffs
 -   [Click here to install Dracula for GitLab](https://github.com/dracula/gitlab/raw/master/dracula.user.css)
 
 -   Once installed, it will replace the default syntax highlighting theme with Dracula here: https://gitlab.com/profile/preferences
-    ![Syntax Highlighting Theme](screenshots/syntax-highlighting-theme.png)
+
+![Syntax Highlighting Theme](https://raw.githubusercontent.com/dracula/gitlab/master/screenshots/syntax-highlighting-theme.png)
 
 #### Install manually
 
