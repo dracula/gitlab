@@ -1,11 +1,8 @@
 ### [GitLab](http://gitlab.com/explore)
 
-Currently, this theme will only update the syntax highlighting for code and diffs. WebIDE and single
-file editor continue to use the theme set in the personal preferences. Does not work on the diff
-example in the profile preferences due to a different implementation.
-
-The theme bases on GitLab
-version [`v15.1.2`](https://gitlab.com/gitlab-org/gitlab-foss/-/tags/v15.1.2).
+The theme bases on files from GitLab
+version [`v15.1.2`](https://gitlab.com/gitlab-org/gitlab-foss/-/tags/v15.1.2) but will most likely
+work with other `v15.x` versions.
 
 #### Install with browser extension
 
@@ -41,3 +38,8 @@ npm run build
 ```
 
 Then you'll find `dracula.css` and `dracula.user.css` in the root folder.
+
+#### Known Issues
+
+The WebIDE and single file editor do not fully comply to the theme. This is related to how the
+monaco editor parses the content and classifies it.

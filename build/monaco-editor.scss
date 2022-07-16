@@ -1,0 +1,65 @@
+@import "dracula-variables";
+
+/*
+  This only styles the wrapper for the content. The editor is not easily themeable in the current
+  state.
+*/
+.monaco-editor {
+  &,
+  .inputarea.ime-input,
+  .monaco-editor-background {
+    color: $dt-gray-light;
+    background-color: $dt-gray-dark;
+  }
+
+  .cdr.active-line-text {
+    background-color: $dt-gray;
+  }
+
+  .margin {
+    background-color: $dt-gray-dark;
+
+    .line-numbers {
+      color: $dt-blue;
+    }
+  }
+
+  .view-overlays {
+    .current-line,
+    .cslr.selected-text {
+      background-color: $dt-gray;
+    }
+  }
+
+  .mtk1,
+  .mtk39 {
+    color: $dt-gray-light;
+  }
+
+  .mtk3,
+  .mtk14 {
+    color: $dt-pink;
+  }
+
+  .mtk6 {
+    color: $dt-purple;
+  }
+
+  .mtk8 {
+    color: $dt-blue;
+  }
+
+  .mtk13,
+  .mtk18 {
+    color: $dt-cyan;
+  }
+
+  .currentFindMatch,
+  .wordHighlightStrong {
+    background-color: $dt-gray;
+  }
+
+  .findMatch {
+    background-color: rgba($dt-green, .5);
+  }
+}

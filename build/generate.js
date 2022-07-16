@@ -37,6 +37,7 @@ async function download(url) {
       `https://gitlab.com/gitlab-org/gitlab-foss/-/raw/${gitlab_release_tag}/app/assets/stylesheets/highlight/common.scss`
   );
   const draculaTheme = fs.readFileSync("highlight-dracula.scss", "utf8");
+  const monacoDraculaTheme = fs.readFileSync("monaco-editor.scss", "utf8");
   let draculaHighlightJs = await download(
       "https://github.com/dracula/highlightjs/raw/7e046d97407ba14b3f812b4c23cfc4bd921edc3e/dracula.css"
   );
@@ -48,6 +49,7 @@ async function download(url) {
     ${gitlabVariables}
     ${gitlabCommon}
     ${draculaTheme}
+    ${monacoDraculaTheme}
     ${draculaHighlightJs}
   `;
 

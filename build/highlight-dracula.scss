@@ -1,15 +1,4 @@
-/* Variables from https://github.com/dracula/pygments/blob/9cf371f24908e2b138cfcf0a87d0d654b4befd8f/dracula.scss */
-$dt-gray-dark: #282a36; // Background;
-$dt-gray: #44475a; // Current Line & Selection;
-$dt-gray-light: #f8f8f2; // Foreground;
-$dt-blue: #6272a4; // Comment;
-$dt-cyan: #8be9fd;
-$dt-green: #50fa7b;
-$dt-orange: #ffb86c;
-$dt-pink: #ff79c6;
-$dt-purple: #bd93f9;
-$dt-red: #ff5555;
-$dt-yellow: #f1fa8c;
+@import "dracula-variables";
 
 // Styles for the different content wrapper which contain e.g. line numbers
 .file-content.code,
