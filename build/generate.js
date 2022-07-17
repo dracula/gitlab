@@ -2,89 +2,75 @@ const fetch = require("node-fetch");
 const sass = require("node-sass");
 const fs = require("fs");
 
+// The release tag from gitlab to download scss files from
+const gitlab_release_tag = "v15.1.2";
 const userStyleComment = `/* ==UserStyle==
 @name         Dracula for GitLab
 @description  A dark theme for GitLab
 @namespace    github.com/dracula/gitlab
-@version      1.0.0
+@version      2.0.0
 @homepageURL  https://draculatheme.com/gitlab
 @supportURL   https://github.com/dracula/gitlab/issues
+@updateURL    https://github.com/dracula/gitlab/raw/master/dracula.user.css
 @license      MIT
 @preprocessor stylus
 ==/UserStyle== */
 `;
 
-async function download(url, removeImports) {
-	const res = await fetch(url);
-	let text = await res.text();
-
-	if (removeImports) text = text.replace(/@import [^]*?;/gi, "");
-
-	return text;
+/**
+ * Download a file from provided URL.
+ * @param url to fetch and save locally.
+ * @returns {Promise<*>} resolving to the file content.
+ */
+async function download(url) {
+  const res = await fetch(url);
+  let text = await res.text();
+  return text.replace(/@import [^]*?;/gi, "");
 }
 
 (async () => {
-	// https://gitlab.com/gitlab-org/gitlab-foss/-/blob/master/app/assets/stylesheets/highlight/themes/monokai.scss
-	// https://gitlab.com/gitlab-org/gitlab-foss/-/blob/master/app/assets/stylesheets/pages/merge_conflicts.scss
-	// https://gitlab.com/gitlab-org/gitlab-foss/-/blob/master/app/assets/javascripts/ide/lib/themes/monokai.js
+  // Download scss files for variables and mixins
+  const gitlabVariables = await download(
+      `https://gitlab.com/gitlab-org/gitlab-foss/-/raw/${gitlab_release_tag}/app/assets/stylesheets/framework/variables.scss`
+  );
+  const gitlabCommon = await download(
+      `https://gitlab.com/gitlab-org/gitlab-foss/-/raw/${gitlab_release_tag}/app/assets/stylesheets/highlight/common.scss`
+  );
+  const draculaTheme = fs.readFileSync("highlight-dracula.scss", "utf8");
+  const monacoDraculaTheme = fs.readFileSync("monaco-editor.scss", "utf8");
+  let draculaHighlightJs = await download(
+      "https://github.com/dracula/highlightjs/raw/7e046d97407ba14b3f812b4c23cfc4bd921edc3e/dracula.css"
+  );
+  draculaHighlightJs = draculaHighlightJs.replaceAll(
+      ".hljs", ".code.highlight .hljs"
+  );
 
-	const frameworkVariables = await download(
-		"https://gitlab.com/gitlab-org/gitlab-foss/-/raw/master/app/assets/stylesheets/framework/variables.scss",
-		true,
-	);
-	const highlightCommon = await download(
-		"https://gitlab.com/gitlab-org/gitlab-foss/-/raw/master/app/assets/stylesheets/highlight/common.scss",
-		true,
-	);
-	const highlightDracula = fs.readFileSync("highlight-dracula.scss", "utf8");
+  const scss = `
+    ${gitlabVariables}
+    ${gitlabCommon}
+    ${draculaTheme}
+    ${monacoDraculaTheme}
+    ${draculaHighlightJs}
+  `;
 
-	const scss = `
-		${frameworkVariables}
-		${highlightCommon}
-		${highlightDracula}
-		
-		body {
-			.syntax-theme label:nth-child(1) {
-				.preview {
-					height: 100px;
-					border-radius: 4px;
-					background-image: url(https://draculatheme.com/static/img/screenshots/pygments.png);
-					background-size: 300%;
-					img {
-						display: none;
-					}
-				}
+  sass.render(
+      {
+        outputStyle: "compressed",
+        data: scss
+      },
+      (err, result) => {
+        if (err) {
+          return console.error(err);
+        }
 
-				word-spacing: -999px;
-				letter-spacing: -999px;
-				&:after {
-					content: "Dracula";
-					margin-left: 4px;
-					word-spacing: normal;
-					letter-spacing: normal;
-				}
-			}
-		}
-	`;
+        let css = result.css.toString().trim();
 
-	sass.render(
-		{
-			outputStyle: "compressed",
-			data: scss,
-		},
-		(err, result) => {
-			if (err) return console.log(err);
-
-			const css = result.css.toString().trim();
-			fs.writeFileSync("../dracula.css", css);
-
-			fs.writeFileSync(
-				"../dracula.user.css",
-				userStyleComment +
-					'@-moz-document domain("gitlab.com"){' +
-					css +
-					"}",
-			);
-		},
-	);
+        fs.writeFileSync("../dracula.css", css);
+        fs.writeFileSync(
+            "../dracula.user.css",
+            userStyleComment +
+            '@-moz-document domain("gitlab.com"){' + css + "}"
+        );
+      }
+  );
 })();
